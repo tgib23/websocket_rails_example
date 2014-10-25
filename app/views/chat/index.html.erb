@@ -1,22 +1,42 @@
-<ul id="chat_area">
-
-</ul>
-
-<input id="comment" type="text">
-<input id="send" type="button" value="send">
+<div id="chat">
+  <div id="display">
+    <div id="text_area">
+  
+    </div>
+  
+    <div id="user_area">
+  
+    </div>
+  </div>
+  <div id="input_name_text">
+    <input id="comment" type="text">
+    <input id="user_name" type="text">
+    <input id="send" type="button" value="send">
+  </div>
+</div>
 
 <script>
 
   var ws_rails = new WebSocketRails("localhost:3001/websocket");
 
   ws_rails.bind("websocket_chat", function(message){
-    var message_li = document.createElement("li");
+    var message_li = document.createElement("p");
+    var message_li;
     message_li.textContent = message;
-    document.getElementById("chat_area").appendChild(message_li);
+    document.getElementById("text_area").appendChild(message_li);
   })
+
+  ws_rails.bind("websocket_user", function(message){
+    var user_li = document.createElement("p");
+    user_li.textContent = message;
+    document.getElementById("user_area").appendChild(user_li);
+  })
+
   document.getElementById("send").onclick =  function(){
-　　var comment = document.getElementById("comment").value;
+  　var comment = document.getElementById("comment").value;
+    var user_name = document.getElementById("user_name").value;
 　　ws_rails.trigger("websocket_chat", comment);
+　　ws_rails.trigger("websocket_user", user_name);
 　}
 
 </script>

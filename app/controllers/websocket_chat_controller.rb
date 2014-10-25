@@ -4,4 +4,10 @@ class WebsocketChatController < WebsocketRails::BaseController
     receive_message = message()
     broadcast_message(:websocket_chat, receive_message)
   end
+
+  def user_join
+    user_info = message()
+    broadcast_message(:websocket_user, user_info)
+  end
+
 end
